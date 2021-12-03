@@ -1,0 +1,4 @@
+<resources>
+    <string name="titlemain">Songs</string>
+    <string name="titleplaysong">Now Playing</string>
+</resources>
