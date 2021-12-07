@@ -1,4 +1,4 @@
-package com.example.musiplayer;
+package com.example.musicplayer;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,8 +10,6 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.karumi.dexter.Dexter;
