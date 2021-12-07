@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class PlaySong extends AppCompatActivity {
 
@@ -34,7 +35,8 @@ public class PlaySong extends AppCompatActivity {
     int position;
     SeekBar seekbar;
     Thread updateSeek;
-    boolean repeatFlag = false;
+    boolean repeatFlag;
+    boolean shuffleFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +60,6 @@ public class PlaySong extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
-
 
         songname = findViewById(R.id.songname);
         play = findViewById(R.id.play);
@@ -138,12 +136,19 @@ public class PlaySong extends AppCompatActivity {
             public void onClick(View v) {
                 mediaPlayer.stop();
                 mediaPlayer.release();
-                if(position!=0){
-                    position = position - 1;
+
+                if(shuffleFlag&&!repeatFlag){
+                    position = getRandom(songs.size()-1);
                 }
-                else{
-                    position = songs.size() - 1;
+                else if(!shuffleFlag&&!repeatFlag){
+                    if(position!=0){
+                        position = position - 1;
+                    }
+                    else{
+                        position = songs.size() - 1;
+                    }
                 }
+
                 Uri uri = Uri.parse(songs.get(position).toString());
                 mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
                 mediaPlayer.start();
@@ -151,6 +156,11 @@ public class PlaySong extends AppCompatActivity {
                 seekbar.setMax(mediaPlayer.getDuration());
                 textContent = songs.get(position).getName().toString();
                 songname.setText(textContent);
+            }
+            private int getRandom(int i) {
+
+                Random random = new Random();
+                return random.nextInt(i+1);
             }
         });
 
@@ -159,12 +169,19 @@ public class PlaySong extends AppCompatActivity {
             public void onClick(View v) {
                 mediaPlayer.stop();
                 mediaPlayer.release();
-                if(position!=songs.size()-1){
-                    position = position + 1;
+
+                if(shuffleFlag&&!repeatFlag){
+                    position = getRandom(songs.size()-1);
                 }
-                else{
-                    position = 0;
+                else if(!shuffleFlag&&!repeatFlag){
+                    if(position!=songs.size()-1){
+                        position = position + 1;
+                    }
+                    else{
+                        position = 0;
+                    }
                 }
+
                 Uri uri = Uri.parse(songs.get(position).toString());
                 mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
                 mediaPlayer.start();
@@ -174,41 +191,46 @@ public class PlaySong extends AppCompatActivity {
                 songname.setText(textContent);
 
             }
+
+            private int getRandom(int i) {
+
+                Random random = new Random();
+                return random.nextInt(i+1);
+            }
         });
 
         shuffle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shuffle.setImageResource(R.drawable.ic_baseline_shuffleon_24);
+                if(shuffleFlag){
+                    shuffleFlag = false;
+                    shuffle.setImageResource(R.drawable.ic_baseline_shuffle_24);
+                }
+                else{
+                    shuffleFlag = true;
+                    repeatFlag = false;
+                    shuffle.setImageResource(R.drawable.ic_baseline_shuffleon_24);
+                    repeat.setImageResource(R.drawable.ic_baseline_repeat_24);
+                }
+
             }
         });
-        /*
 
-        public void repeatSong(View view) {
-            if(repeatFlag){
-             repeat.setBackgroundResource(R.drawable.ic_baseline_repeat_24);
-            }
-            else{
-               repeat.setBackgroundResource(R.drawable.ic_baseline_repeaton_24);
-            }
-
-            repeatFlag = !repeatFlag;
-        }
-*/
         repeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               repeat.setImageResource(R.drawable.ic_baseline_repeaton_24);
-               repeatFlag = true;
+                if(repeatFlag){
+                    repeatFlag = false;
+                    repeat.setImageResource(R.drawable.ic_baseline_repeat_24);
+                }
+                else{
+                    repeatFlag = true;
+                    shuffleFlag = false;
+                    shuffle.setImageResource(R.drawable.ic_baseline_shuffle_24);
+                    repeat.setImageResource(R.drawable.ic_baseline_repeaton_24);
+                }
             }
         });
-
-
-
-
-
-
-
 
     }
 }
