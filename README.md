@@ -1,4 +1,4 @@
-# MPlay-App
+# Music Player App
 Its a basic music player app capable of playing local music.
 ## Screenshots
 <img src="https://user-images.githubusercontent.com/67891339/144585376-6124ac43-69cf-4926-9883-9ff1fc5ab0d0.jpg" align=left width=20% height=30%>
